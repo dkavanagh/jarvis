@@ -1,0 +1,6 @@
+{
+  "name": "Jarvis",
+  "tagline": "An Alexa skill that acts as a verbal workshop assistant",
+  "body": "### Jarvis\r\nI was envious of Tony Stark and decided I could get part way there by building an Alexa Skill, which is what Jarvis is. I'm adding new interactions all the time, so check it out! At the moment, I'm focusing on electrical and mechanical lookups and calculations.\r\n\r\n### Authors and Contributors\r\n@dkavanagh is working on this project for his own workshop, and hopefully it's useful in yours!\r\n\r\n### Support or Contact\r\nNothing yet, but feel free to file an issue!\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
