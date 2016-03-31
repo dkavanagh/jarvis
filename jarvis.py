@@ -121,6 +121,10 @@ RESISTOR_VALUES = [
 ]
 
 
+def simplify_num(val):
+    return val if val != int(val) else int(val)
+
+
 def resistor_decode(intent, session):
     """ Sets the color in the session and prepares the speech to reply to the
     user.
@@ -134,9 +138,9 @@ def resistor_decode(intent, session):
     color_two = intent['slots']['two']['value']
     color_three = intent['slots']['three']['value']
     # color_four = intent['slots']['four']['value']
-    value = (([val[1] for val in RESISTOR_VALUES if val[0] == color_one][0] * 10) + \
-            [val[1] for val in RESISTOR_VALUES if val[0] == color_two][0]) * \
-            [val[2] for val in RESISTOR_VALUES if val[0] == color_three][0]
+    value = (([val[1] for val in RESISTOR_VALUES if val[0] == color_one][0] * 10) + 
+        [val[1] for val in RESISTOR_VALUES if val[0] == color_two][0]) * \
+        [val[2] for val in RESISTOR_VALUES if val[0] == color_three][0]
     unit = ''
     if value > 1000000:
         value = value / 1000000.0
@@ -144,7 +148,7 @@ def resistor_decode(intent, session):
     if value > 1000:
         value = value / 1000.0
         unit = ' k'
-    speech_output = 'resistor is ' + str(value) + unit + ' ohms'
+    speech_output = 'resistor is ' + str(simplify_num(value)) + unit + ' ohms'
     reprompt_text = "anything else?"
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
