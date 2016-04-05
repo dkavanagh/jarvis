@@ -1,0 +1,37 @@
+{
+  "intents": [
+    {
+      "intent": "resistor",
+      "slots": [
+        {
+          "name": "one",
+          "type": "LIST_OF_COLORS"
+        },
+                {
+          "name": "two",
+          "type": "LIST_OF_COLORS"
+        },
+                {
+          "name": "three",
+          "type": "LIST_OF_COLORS"
+        },
+                {
+          "name": "four",
+          "type": "LIST_OF_COLORS"
+        }
+      ]
+    },
+    {
+      "intent": "AMAZON.StartOverIntent"
+    },
+    {
+      "intent": "AMAZON.CancelIntent"
+    },
+    {
+      "intent": "AMAZON.StopIntent"
+    },
+    {
+      "intent": "AMAZON.HelpIntent"
+    }
+  ]
+}

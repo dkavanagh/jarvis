@@ -22,9 +22,8 @@ def lambda_handler(event, context):
     prevent someone else from configuring a skill that sends requests to this
     function.
     """
-    # if (event['session']['application']['applicationId'] !=
-    #         "amzn1.echo-sdk-ams.app.[unique-value-here]"):
-    #     raise ValueError("Invalid Application ID")
+    if (event['session']['application']['applicationId'] != "amzn1.echo-sdk-ams.app.10971b77-8be1-4b2e-96af-4d62794c32d9"):
+        raise ValueError("Invalid Application ID")
 
     if event['session']['new']:
         on_session_started({'requestId': event['request']['requestId']},
@@ -68,6 +67,12 @@ def on_intent(intent_request, session):
     # Dispatch to your skill's intent handlers
     if intent_name == "resistor":
         return resistor_decode(intent, session)
+    elif intent_name == "AMAZON.StartOverIntent":
+        return start_over()
+    elif intent_name == "AMAZON.CancelIntent":
+        return get_stop_response()
+    elif intent_name == "AMAZON.StopIntent":
+        return get_stop_response()
     elif intent_name == "AMAZON.HelpIntent":
         return get_welcome_response()
     else:
@@ -95,15 +100,22 @@ def get_welcome_response():
     card_title = "Welcome"
     speech_output = "I'm Jarvis, your workshop assistant. " \
                     "I'm learning to answer electrical engineering questions, " \
-                    "Ask me about resistor color codes or calculations."
+                    "Ask me, color code red black brown."
     # If the user either does not reply to the welcome message or says something
     # that is not understood, they will be prompted again with this text.
-    reprompt_text = "Ask me about resistor color codes or calculations." \
+    reprompt_text = "Ask me about resistor color codes or calculations. " \
                     "Request new features at jarvis dash skill dot com"
     should_end_session = False
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
+def get_stop_response():
+    session_attributes = {}
+    card_title = "Bye"
+    speech_output = "Glad I could help."
+    reprompt_text = "Bye"
+    return build_response(session_attributes, build_speechlet_response(
+        card_title, speech_output, reprompt_text, True))
 
 RESISTOR_VALUES = [
     ('black', 0, 1),
@@ -114,7 +126,7 @@ RESISTOR_VALUES = [
     ('green', 5,  100000),
     ('blue', 6,   1000000),
     ('violet', 7, 10000000),
-    ('grey', 8,   100000000),
+    ('gray', 8,   100000000),
     ('white', 9,  1000000000),
     ('gold', -1, .1),
     ('silver', -1, .01)
@@ -142,6 +154,7 @@ def resistor_decode(intent, session):
         [val[1] for val in RESISTOR_VALUES if val[0] == color_two][0]) * \
         [val[2] for val in RESISTOR_VALUES if val[0] == color_three][0]
     unit = ''
+    session_attributes = {'resistor': value}
     if value > 1000000:
         value = value / 1000000.0
         unit = ' meg'
@@ -154,6 +167,11 @@ def resistor_decode(intent, session):
         card_title, speech_output, reprompt_text, should_end_session))
 
 
+def start_over():
+    session_attributes = {}
+    return build_response(session_attributes, build_speechlet_response(
+        "Reset", "OK", "Reset", False))
+
 # --------------- Helpers that build all of the responses ----------------------
 
 
@@ -165,8 +183,8 @@ def build_speechlet_response(title, output, reprompt_text, should_end_session):
         },
         'card': {
             'type': 'Simple',
-            'title': 'SessionSpeechlet - ' + title,
-            'content': 'SessionSpeechlet - ' + output
+            'title': 'Jarvis - ' + title,
+            'content': 'Jarvis - ' + output
         },
         'reprompt': {
             'outputSpeech': {

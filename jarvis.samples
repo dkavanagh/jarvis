@@ -1,0 +1,6 @@
+resistor color code {one} {two} {three}
+resistor color code {one} {two} {three} {four}
+ohm watts for {volts} volts and {amps} amps
+ohm wattage for {volts} volts and {amps} amps
+ohm watts for {amps} amps and {volts} volts
+ohm wattage for {amps} amps and {volts} volts
